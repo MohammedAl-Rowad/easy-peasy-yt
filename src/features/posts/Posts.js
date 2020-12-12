@@ -1,7 +1,7 @@
 import React from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
-import { FlexboxGrid, Button, Panel, Loader, List, ButtonToolbar } from 'rsuite'
+import { FlexboxGrid, Button, Panel, List, ButtonToolbar } from 'rsuite'
 
 const Posts = () => {
   const posts = useStoreState(({ posts }) => posts.list)

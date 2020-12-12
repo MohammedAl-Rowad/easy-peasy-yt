@@ -22,7 +22,7 @@ export const postsModel = {
       actions.addPosts(data)
       setTimeout(() => actions.setStatus('success'), 2000)
     } catch {
-      actions.setStatus('faild')
+      actions.setStatus('failed')
     }
   }),
   delPosts: thunk(async (actions, { id }) => {
@@ -31,6 +31,8 @@ export const postsModel = {
       await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
       actions.removePost({ id })
       actions.setStatus('success')
-    } catch {}
+    } catch {
+      actions.setStatus('failed')
+    }
   }),
 }
