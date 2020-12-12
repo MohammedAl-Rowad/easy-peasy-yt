@@ -25,8 +25,9 @@ export const postsModel = {
       actions.setStatus('failed')
     }
   }),
-  delPosts: thunk(async (actions, { id }) => {
+  delPosts: thunk(async (actions, { id }, helpers) => {
     try {
+      // const state = helpers.getState()
       actions.setStatus('loading')
       await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
       actions.removePost({ id })
