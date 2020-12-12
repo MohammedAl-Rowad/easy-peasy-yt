@@ -1,7 +1,8 @@
 import React from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
+import Post from './Post'
 
-import { FlexboxGrid, Button, Panel, List, ButtonToolbar } from 'rsuite'
+import { FlexboxGrid, Button, List } from 'rsuite'
 
 const Posts = () => {
   const posts = useStoreState(({ posts }) => posts.list)
@@ -9,6 +10,8 @@ const Posts = () => {
 
   const fetchPosts = useStoreActions(({ posts }) => posts.fetchPosts)
   const delPosts = useStoreActions(({ posts }) => posts.delPosts)
+  const patchPost = useStoreActions(({ posts }) => posts.patchPost)
+  const initEditMode = useStoreActions(({ posts }) => posts.initEditMode)
 
   return (
     <FlexboxGrid>
@@ -26,22 +29,17 @@ const Posts = () => {
         </Button>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={24}>
-        {posts.map(({ id, title, body }) => (
-          <List key={id}>
+        {posts.map((post, idx) => (
+          <List key={post.id}>
             <List.Item>
-              <Panel header={title} style={{ margin: 10 }} bordered>
-                {body}
-                <ButtonToolbar>
-                  <Button
-                    loading={status === 'loading'}
-                    disabled={status === 'loading'}
-                    color="red"
-                    onClick={() => delPosts({ id })}
-                  >
-                    Delete
-                  </Button>
-                </ButtonToolbar>
-              </Panel>
+              <Post
+                post={post}
+                status={status}
+                idx={idx}
+                delPosts={delPosts}
+                initEditMode={initEditMode}
+                patchPost={patchPost}
+              />
             </List.Item>
           </List>
         ))}

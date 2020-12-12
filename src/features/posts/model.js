@@ -7,6 +7,12 @@ export const postsModel = {
   addPosts: action((state, payload) => {
     state.list.push(...payload)
   }),
+  initEditMode: action((state, { idx }) => {
+    state.list[idx].mode = 'edit'
+  }),
+  replacePost: action((state, { idx, data }) => {
+    state.list[idx] = data
+  }),
   removePost: action((state, payload) => {
     state.list = state.list.filter(({ id }) => id !== payload.id)
   }),
@@ -32,6 +38,19 @@ export const postsModel = {
       await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
       actions.removePost({ id })
       actions.setStatus('success')
+    } catch {
+      actions.setStatus('failed')
+    }
+  }),
+  patchPost: thunk(async (actions, { id, newBody, idx }) => {
+    try {
+      actions.setStatus('loading')
+      const { data } = await axios.patch(
+        `https://jsonplaceholder.typicode.com/posts/${id}`,
+        { body: newBody }
+      )
+      actions.setStatus('success')
+      actions.replacePost({ idx, data })
     } catch {
       actions.setStatus('failed')
     }
