@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { StoreProvider } from 'easy-peasy'
+import 'rsuite/dist/styles/rsuite-default.css'
+import store from './store'
+import { Container, Header, Content } from 'rsuite'
+import { Posts } from './features'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <StoreProvider store={store}>
+      <Container style={{margin: 100}}>
+        <Header></Header>
+        <Content>
+          <Posts />
+        </Content>
+      </Container>
+    </StoreProvider>
+  )
 }
 
-export default App;
+export default App
